@@ -9,7 +9,19 @@ class Todorepository {
     return todo;
   }
   async getAll() {
-    return  this.todos;
+    return this.todos;
+  }
+  async findById(id) {
+    return this.todos.find((todo) => todo.id === id);
+  }
+  // understand tomorrow إن شاء الله
+  async update(updatedTodo) {
+    const index = this.todos.findIndex((t) => t.id === updatedTodo.id);
+    if (index !== -1) {
+      this.todos[index] = updatedTodo;
+      return this.todos[index];
+    }
+    return null;
   }
 }
 export default Todorepository;
