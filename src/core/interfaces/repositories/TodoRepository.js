@@ -8,5 +8,8 @@ class Todorepository {
     this.todos.push(todo);
     return todo;
   }
+  async getAll() {
+    return  this.todos;
+  }
 }
 export default Todorepository;
