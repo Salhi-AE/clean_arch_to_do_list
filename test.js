@@ -11,9 +11,10 @@ async function testAddTodo(){
         console.log("Test 1: Adding a todo with empty title");
         await addUserCase.execute("");
 
-        console.log("Test 2: Adding a valid todo");
+        console.log(" Test 2: Adding a valid todo");
         const todo = await addUserCase.execute("Learn Clean Architecture");
         console.log("Added Todo:", todo);
+
     } catch (error) {
         console.error("Error:", error.message);
     }
