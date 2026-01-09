@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, inital-scale=1.0" />
+    <title>To-Do List homepage</title>
+    <link rel="stylesheet" href="./public/css/allTodoListsstyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+      <ul class="todo-list">
+        <%todos.forEach(todo=> {%>
+
+        <li class="<%= todo.completed ? 'completed' : '' %>">
+          <span class="todo-text"><%= todo.text %></span>
+        </li>
+        <div class="actions">
+          <a href="" class="btn-toggle"><%= todo.completed ? '↩️' : '✅' %></a>
+        </div>
+
+        <%})%>
+      </ul>
+      <% if(todos.length ===0) { %>
+      <div class="empty-msg">No tasks to display</div>
+      <% } %>
+    </div>
+  </body>
+</html>
