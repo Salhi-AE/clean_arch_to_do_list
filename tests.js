@@ -4,6 +4,7 @@ import ListTodos from "./src/core/usecases/ListTodos.js";
 import ToggleTodo from "./src/core/usecases/ToggleTodo.js";
 import DeleteTodo from "./src/core/usecases/DeleteTodo.js";
 import EditTitleTodo from "./src/core/usecases/EditTitleTodo.js";
+import DeleteAllTodos from "./src/core/usecases/DeleteAllTodos.js";
 // async function testAddTodo() {
 //   const repo = new Todorepository();
 //   const addUserCase = new AddTodo(repo);
@@ -51,41 +52,60 @@ import EditTitleTodo from "./src/core/usecases/EditTitleTodo.js";
 //   }
 // }
 
-async function testDeleteTodo() {
+// async function testDeleteTodo() {
+//   const repo = new Todorepository();
+//   const deleteTodoUseCase = new DeleteTodo(repo);
+
+//   const deletTest = await repo.persist({
+//     id: null,
+//     title: "Delete Test Todo",
+//     completed: false,
+//   });
+
+//   console.log("Test 5: Deleting the todo");
+//   try {
+//     await deleteTodoUseCase.execute(deletTest.id);
+//     const allTodos = await repo.getAll();
+//     console.log("All Todos after deletion:", allTodos);
+//   } catch (error) {
+//     console.error("Error:", error.message);
+//   }
+// }
+// async function testeditTitleTodo() {
+//   const repo = new Todorepository();
+//   const editTitleTodoUseCase = new EditTitleTodo(repo);
+
+//   const editTitleTodoTest = await repo.persist({
+//     id: null,
+//     title: "Edit Title Test Todo",
+//     completed: false,
+//   });
+
+//   console.log("Test 6: Editing the todo's title");
+//   try {
+//     const updatedTodo = await editTitleTodoUseCase.execute(
+//       editTitleTodoTest.id,
+//       "Updated Title"
+//     );
+//     console.log("Updated Todo:", updatedTodo);
+//   } catch (error) {
+//     console.error("Error:", error.message);
+//   }
+// }
+
+async function testDeleteAllTodosCompleted() {
   const repo = new Todorepository();
-  const deleteTodoUseCase = new DeleteTodo(repo);
+  const deleteAllTodosUseCase = new DeleteAllTodos(repo);
 
-  const deletTest = await repo.persist({
-    id: null,
-    title: "Delete Test Todo",
-    completed: false,
-  });
+  await repo.persist({ id: null, title: "First Todo", completed: true });
+  await repo.persist({ id: null, title: "Second Todo", completed: false });
+  await repo.persist({ id: null, title: "Third Todo", completed: true });
 
-  console.log("Test 5: Deleting the todo");
+  console.log("Test 7: Deleting all completed todos");
   try {
-    await deleteTodoUseCase.execute(deletTest.id);
+    await deleteAllTodosUseCase.execute();
     const allTodos = await repo.getAll();
-    console.log("All Todos after deletion:", allTodos);
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
-}
-async function testeditTitleTodo() {
-  const repo = new Todorepository();
-  const editTitleTodoUseCase = new EditTitleTodo(repo);
-
-  const editTitleTodoTest = await repo.persist({
-    id: null,
-    title: "Edit Title Test Todo",
-    completed: false,
-  });
-
-  try {
-    const updatedTodo = await editTitleTodoUseCase.execute(
-      editTitleTodoTest.id,
-      "Updated Title"
-    );
-    console.log("Updated Todo:", updatedTodo);
+    console.log("All Todos after deleting completed:", allTodos);
   } catch (error) {
     console.error("Error:", error.message);
   }
@@ -94,5 +114,6 @@ async function testeditTitleTodo() {
 // testAddTodo();
 // testgetAllTodos();
 // testToggleTodo();
-testDeleteTodo();
-testeditTitleTodo();
+// testDeleteTodo();
+// testeditTitleTodo();
+testDeleteAllTodosCompleted();

@@ -2,7 +2,7 @@
   "name": "to-do-list",
   "version": "1.0.0",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
@@ -13,6 +13,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "nodemon": "^3.1.11"
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11",
+    "path": "^0.12.7"
   }
 }

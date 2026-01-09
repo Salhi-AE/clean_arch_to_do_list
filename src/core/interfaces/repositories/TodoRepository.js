@@ -24,9 +24,12 @@ class Todorepository {
     return null;
   }
   async delete(id) {
-    this.todos =this.todos.filter((todo)=> todo.id != parseInt(id));  
+    this.todos = this.todos.filter((todo) => todo.id != parseInt(id));
     return true;
   }
- 
+  async deleteCompleted() {
+    this.todos = this.todos.filter((todo) => todo.completed === false);
+    return true;
+  }
 }
 export default Todorepository;
