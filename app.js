@@ -26,7 +26,7 @@ const todoRepo = new TodoRepo();
 const useCases = {
     listTodos : new ListTodos(todoRepo),
     addTodos: new AddTodo(todoRepo),
-    updateTodo: new EditTitleTodo(todoRepo),
+    editTodos: new EditTitleTodo(todoRepo),
     deleteTodo: new DeleteTodo(todoRepo),
     toggleTodo: new ToggleTodo(todoRepo),
 
@@ -36,9 +36,9 @@ const todoController = new TodoController(useCases);
 
 app.get('/', (req,res)=> todoController.getAllTodos(req,res));
 app.post('/add-todo',(req,res)=> todoController.addTodo(req,res));
-app.post('/update-todo',(req,res)=> todoController.updateTodo(req,res));
-app.post('/delete-todo',(req,res)=> todoController.deleteTodo(req,res));
-app.post('/toggle-todo',(req,res)=> todoController.toggleTodo(req,res));
+app.post('/edit-todo/:id',(req,res)=> todoController.editTodo(req,res));
+app.get('/delete-todo/:id',(req,res)=> todoController.deleteTodo(req,res));
+app.get('/toggle-todo/:id',(req,res)=> todoController.toggleTodo(req,res));
 app.listen(port,()=> {
     console.log(`Server is running at http://localhost:${port}`);
 })

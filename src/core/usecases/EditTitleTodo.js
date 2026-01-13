@@ -4,7 +4,8 @@ class EditTitleTodo {
   }
 
   async execute(id, newTitle) {
-    if (!newTitle || newTitle.trim() === "") {
+    const editTitle = String(newTitle || "");
+    if (!newTitle || editTitle.trim() === "") {
         throw new Error("Title cannot be empty");
     }
 

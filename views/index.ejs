@@ -25,7 +25,7 @@
           </div>
 
           <div class="todo-actions">
-            <a href="/toggle/<%= todo.id %>" title="تغيير الحالة">
+            <a href="/toggle-todo/<%= todo.id %>" title="تغيير الحالة">
               <%= todo.completed ? '↩️' : '✅' %>
             </a>
             <button
@@ -36,7 +36,7 @@
               ✏️
             </button>
             <a
-              href="/delete/<%= todo.id %>"
+              href="/delete-todo/<%= todo.id %>"
               class="btn-delete"
               title="حذف"
               onclick="return confirm('هل أنت متأكد؟')"
@@ -60,7 +60,7 @@
         if (newTitle && newTitle.trim() !== "" && newTitle !== oldTitle) {
           const form = document.createElement("form");
           form.method = "POST";
-          form.action = `/edit/${id}`;
+          form.action = `/edit-todo/${id}`;
 
           const input = document.createElement("input");
           input.type = "hidden";

@@ -34,9 +34,11 @@ class Todorepository {
     return todos.find((todo) => todo.id === parseInt(id));
   }
   async update(updatedTodo) {
-    const index = await this._readFiles().findIndex((todo) => updatedTodo.id);
-    if(index !== -1) {
-      this._readFiles()[index] = updatedTodo;
+    const todos = await this._readFiles()
+    const index =await todos.findIndex((todo)=> todo.id === updatedTodo.id);
+        if(index !== -1) {
+      todos[index] = updatedTodo;
+      await this._saveFiles(todos);
       return updatedTodo;
     }
     return "Todo not found";

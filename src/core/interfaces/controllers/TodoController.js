@@ -1,7 +1,6 @@
 class TodoController {
   constructor(usecases) {
     this.usecases = usecases;
-
   }
   async getAllTodos(req, res) {
     try {
@@ -11,40 +10,41 @@ class TodoController {
       res.status(500).send(error.message);
     }
   }
-  async addTodo(req,res){
+  async addTodo(req, res) {
     try {
       const title = req.body.title;
       await this.usecases.addTodos.execute(title);
       res.redirect("/");
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
 
-    }catch(error) {
+  async toggleTodo(req, res) {
+    try {
+      const { id } = req.params;
+      await this.usecases.toggleTodo.execute(id);
+      res.redirect("/");
+    } catch (error) {
       res.status(500).send(error.message);
     }
   }
-  async toggleTodo(req,res) {
+  async editTodo(req, res) {
     try {
-      const {id} =req.params;
-      await this.usecases.toggeleTodo.execute({id});
+      const { id } = req.params;
+      const { title } = req.body;
+      await this.usecases.editTodos.execute(id, title);
       res.redirect("/");
-    } catch(error) {
+    } catch (error) {
       res.status(500).send(error.message);
     }
   }
-  async editTodo (req,res){
+  async deleteTodo(req, res) {
     try {
-      const {id} = req.params;
-      await this.usecases.editTodo.execute({id});
+      const { id } = req.params;
+      await this.usecases.deleteTodo.execute(id);
       res.redirect("/");
-    } catch(error) {
-      res.status(500).send(error.message);
-    }
-  }
-  async deleteTodo(req,res) {
-    try {
-      const {id}= req.params;
-      await this.usecases.deleteTodo.execute({id});
-      res.redirect("/");
-    } catch(error) {
+    } catch (error) {
       res.status(500).send(error.message);
     }
   }
