@@ -3,7 +3,7 @@ class ListTodos {
     this.todoRepository = todoRepository;
   }
   async execute() {
-    return await this.todoRepository.getAll();
+    return await this.todoRepository.findAll();
   }
 }
 

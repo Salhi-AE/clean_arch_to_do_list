@@ -1,55 +1,63 @@
 /* public/css/style.css */
+:root {
+    --primary: #4a90e2;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --bg: #f5f7fa;
+    --text: #2c3e50;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
     display: flex;
     justify-content: center;
-    padding-top: 50px;
+    padding: 50px 20px;
 }
 
-.container {
+.app-container {
     background: white;
-    width: 400px;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 30px;
 }
 
-h1 { text-align: center; color: #333; }
+header h1 { margin-bottom: 5px; color: var(--primary); }
+header p { font-size: 0.9rem; color: #7f8c8d; margin-bottom: 25px; }
 
-.todo-form { display: flex; gap: 10px; margin-bottom: 20px; }
-
-input {
+.add-form { display: flex; gap: 10px; margin-bottom: 30px; }
+.add-form input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 12px;
+    border: 2px solid #edf2f7;
+    border-radius: 8px;
+    outline: none;
 }
-
-button {
-    background: #28a745;
+.add-form input:focus { border-color: var(--primary); }
+.add-form button {
+    background: var(--primary);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
+    padding: 0 20px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
 .todo-list { list-style: none; padding: 0; }
-
 .todo-list li {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    padding: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: 0.3s;
 }
 
-.todo-list li.completed .todo-text {
-    text-decoration: line-through;
-    color: #888;
-}
+.is-completed .text { text-decoration: line-through; color: #bdc3c7; }
 
-.actions a { text-decoration: none; margin-right: 10px; }
+.todo-actions { display: flex; gap: 12px; align-items: center; }
+.todo-actions a, .btn-edit { text-decoration: none; cursor: pointer; background: none; border: none; font-size: 1.1rem; }
 
-.empty-msg { text-align: center; color: #999; font-style: italic; }
+.empty-state { text-align: center; padding: 40px 0; color: #bdc3c7; }

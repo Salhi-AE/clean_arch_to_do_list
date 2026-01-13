@@ -3,7 +3,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import TodoRepo from "./src/core/interfaces/repositories/TodoRepository.js";
-
+import AddTodo from "./src/core/usecases/AddTodo.js";
+import EditTitleTodo from "./src/core/usecases/EditTitleTodo.js";
+import DeleteTodo from "./src/core/usecases/DeleteTodo.js";
+import ToggleTodo from "./src/core/usecases/ToggleTodo.js";
 import ListTodos from "./src/core/usecases/ListTodos.js";
 
 import TodoController from "./src/core/interfaces/controllers/TodoController.js";
@@ -22,12 +25,20 @@ app.use(express.static("public"));
 const todoRepo = new TodoRepo();
 const useCases = {
     listTodos : new ListTodos(todoRepo),
+    addTodos: new AddTodo(todoRepo),
+    updateTodo: new EditTitleTodo(todoRepo),
+    deleteTodo: new DeleteTodo(todoRepo),
+    toggleTodo: new ToggleTodo(todoRepo),
+
 }
 
 const todoController = new TodoController(useCases);
 
 app.get('/', (req,res)=> todoController.getAllTodos(req,res));
-
+app.post('/add-todo',(req,res)=> todoController.addTodo(req,res));
+app.post('/update-todo',(req,res)=> todoController.updateTodo(req,res));
+app.post('/delete-todo',(req,res)=> todoController.deleteTodo(req,res));
+app.post('/toggle-todo',(req,res)=> todoController.toggleTodo(req,res));
 app.listen(port,()=> {
     console.log(`Server is running at http://localhost:${port}`);
 })

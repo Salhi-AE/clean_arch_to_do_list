@@ -1,29 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="ltr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, inital-scale=1.0" />
-    <title>To-Do List homepage</title>
-    <link rel="stylesheet" href="./public/css/allTodoListsstyle.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo-List</title>
+    <link rel="stylesheet" href="./css/allTodoListsstyle.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>To-Do List</h1>
+    <div class="app-container">
+      <header>
+        <h1>Todos List</h1>
+      </header>
+
+      <form action="/add-todo" method="POST" class="add-form">
+        <input type="text" name="title" placeholder="next plan   " required />
+        <button type="submit">Add</button>
+      </form>
+
       <ul class="todo-list">
-        <%todos.forEach(todo=> {%>
+        <% todos.forEach(todo => { %>
+        <li class="<%= todo.completed ? 'is-completed' : '' %>">
+          <div class="todo-content">
+            <span class="text"><%= todo.title %></span>
+          </div>
 
-        <li class="<%= todo.completed ? 'completed' : '' %>">
-          <span class="todo-text"><%= todo.text %></span>
+          <div class="todo-actions">
+            <a href="/toggle/<%= todo.id %>" title="تغيير الحالة">
+              <%= todo.completed ? '↩️' : '✅' %>
+            </a>
+            <button
+              onclick="editTodo('<%= todo.id %>', '<%= todo.title %>')"
+              class="btn-edit"
+              title="تعديل"
+            >
+              ✏️
+            </button>
+            <a
+              href="/delete/<%= todo.id %>"
+              class="btn-delete"
+              title="حذف"
+              onclick="return confirm('هل أنت متأكد؟')"
+              >🗑️</a
+            >
+          </div>
         </li>
-        <div class="actions">
-          <a href="" class="btn-toggle"><%= todo.completed ? '↩️' : '✅' %></a>
-        </div>
-
-        <%})%>
+        <% }) %>
       </ul>
-      <% if(todos.length ===0) { %>
-      <div class="empty-msg">No tasks to display</div>
+
+      <% if (todos.length === 0) { %>
+      <div class="empty-state">
+        <p>don't have any todos yet</p>
+      </div>
       <% } %>
     </div>
+
+    <script>
+      function editTodo(id, oldTitle) {
+        const newTitle = prompt("تعديل نص المهمة:", oldTitle);
+        if (newTitle && newTitle.trim() !== "" && newTitle !== oldTitle) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = `/edit/${id}`;
+
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = "title";
+          input.value = newTitle;
+
+          form.appendChild(input);
+          document.body.appendChild(form);
+          form.submit();
+        }
+      }
+    </script>
   </body>
 </html>
