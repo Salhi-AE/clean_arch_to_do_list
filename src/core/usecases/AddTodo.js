@@ -11,7 +11,7 @@ class AddTodo {
     }
 
     const newTodo = new Todo(null, titleStr.trim(), false);
-    return await this.todoRepository.persist(newTodo);
+    return await this.todoRepository.add(newTodo);
   }
 }
 

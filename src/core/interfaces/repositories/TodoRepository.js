@@ -1,54 +1,37 @@
-import fs from "fs/promises";
-import path from "path";
-import {fileURLToPath} from "url";
+import TodoModel from "../../../infrastructure/models/TodoModel.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename)
 class Todorepository {
-  constructor() {
-    this.filePath = path.join(__dirname, "./todos.json");
-  }
-  async _readFiles() {
-    try {
-      const data = await fs.readFile(this.filePath, "utf-8");
-      return JSON.parse(data);
-    } catch (error) {
-      return [];
-    }
-  }
-  async _saveFiles(todos) {
-    await fs.writeFile(this.filePath, JSON.stringify(todos, null, 2));
-  }
-  async persist(todo) {
-    const todos = await this._readFiles();
-    todo.id = todos.length > 0 ? todos[todos.length - 1].id + 1 : 1;
-    todos.push(todo);
-    await this._saveFiles(todos);
-    return todos;
-  }
   async findAll() {
-    return await this._readFiles();
+    const todos = await TodoModel.find().lean();
+    return todos.map((t) => ({ ...t, id: t._id.toString() }));
+  }
+  async add(todo) {
+    const newTodo = new TodoModel({ title: todo.title });
+    const savedTodo = await newTodo.save();
+    return { ...savedTodo._doc, id: savedTodo._id.toString() };
   }
   async findById(id) {
-    const todos= await this._readFiles()
-    return todos.find((todo) => todo.id === parseInt(id));
+    const todo = await TodoModel.findById(id).lean();
+    if (!todo) return "Todo not found";
+    return { ...todo, id: todo._id.toString() };
   }
   async update(updatedTodo) {
-    const todos = await this._readFiles()
-    const index =await todos.findIndex((todo)=> todo.id === updatedTodo.id);
-        if(index !== -1) {
-      todos[index] = updatedTodo;
-      await this._saveFiles(todos);
-      return updatedTodo;
+    const todo = await TodoModel.findById(updatedTodo.id);
+    if (todo) {
+      todo.title = updatedTodo.title;
+      return await todo.save();
     }
-    return "Todo not found";
-
   }
   async delete(id) {
-    const todos =await this._readFiles();
-    const fileread =todos.filter((todo) => todo.id !== parseInt(id));
-    await this._saveFiles(fileread) ;
-    return true
+    return await TodoModel.findByIdAndDelete(id);
+  }
+  async toggle(id){
+    const todo = await TodoModel.findById(id);
+    if (todo) {
+      todo.completed = !todo.completed;
+      return await todo.save();
+    }
   }
 }
+
 export default Todorepository;

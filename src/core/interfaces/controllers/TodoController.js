@@ -31,8 +31,8 @@ class TodoController {
   }
   async editTodo(req, res) {
     try {
-      const { id } = req.params;
-      const { title } = req.body;
+      const id = req.params.id;
+      const title = req.body.title;
       await this.usecases.editTodos.execute(id, title);
       res.redirect("/");
     } catch (error) {

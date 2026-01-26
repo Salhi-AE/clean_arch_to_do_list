@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo-List</title>
-    <link rel="stylesheet" href="./css/allTodoListsstyle.css" />
+    <title> Task Manager</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/allTodoListsstyle.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   </head>
+
   <body>
+    
     <div class="app-container">
       <header>
-        <h1>Todos List</h1>
+        <h1>My Daily Tasks</h1>
       </header>
 
       <form action="/add-todo" method="POST" class="add-form">
-        <input type="text" name="title" placeholder="next plan   " required />
+        <input
+          type="text"
+          name="title"
+          placeholder="Add a new masterpiece..."
+          required
+        />
         <button type="submit">Add</button>
       </form>
 
@@ -25,23 +37,34 @@
           </div>
 
           <div class="todo-actions">
-            <a href="/toggle-todo/<%= todo.id %>" title="تغيير الحالة">
-              <%= todo.completed ? '↩️' : '✅' %>
+            <a
+              href="/toggle-todo/<%= todo.id %>"
+              title="Toggle Status"
+              class="status-icon"
+            >
+              <% if (todo.completed) { %>
+              <i class="bi bi-arrow-counterclockwise text-secondary"></i>
+              <% } else { %>
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <% } %>
             </a>
+
             <button
               onclick="editTodo('<%= todo.id %>', '<%= todo.title %>')"
               class="btn-edit"
-              title="تعديل"
+              title="Edit"
             >
-              ✏️
+              <i class="bi bi-pencil-square text-primary"></i>
             </button>
+
             <a
               href="/delete-todo/<%= todo.id %>"
               class="btn-delete"
-              title="حذف"
-              onclick="return confirm('هل أنت متأكد؟')"
-              >🗑️</a
+              title="Delete"
+              onclick="return confirm('Are you sure?');"
             >
+              <i class="bi bi-trash3 text-danger"></i>
+            </a>
           </div>
         </li>
         <% }) %>
@@ -49,14 +72,14 @@
 
       <% if (todos.length === 0) { %>
       <div class="empty-state">
-        <p>don't have any todos yet</p>
+        <p>Your list is clear. Time to chill! ☕</p>
       </div>
       <% } %>
     </div>
 
     <script>
       function editTodo(id, oldTitle) {
-        const newTitle = prompt("تعديل نص المهمة:", oldTitle);
+        const newTitle = prompt("Update your task:", oldTitle);
         if (newTitle && newTitle.trim() !== "" && newTitle !== oldTitle) {
           const form = document.createElement("form");
           form.method = "POST";

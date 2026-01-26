@@ -1,7 +1,10 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+dotenv.config();
 
+import connectDB from "./src/infrastructure/config/db.js";
 import TodoRepo from "./src/core/interfaces/repositories/TodoRepository.js";
 import AddTodo from "./src/core/usecases/AddTodo.js";
 import EditTitleTodo from "./src/core/usecases/EditTitleTodo.js";
@@ -33,7 +36,8 @@ const useCases = {
 }
 
 const todoController = new TodoController(useCases);
-
+connectDB();
+ 
 app.get('/', (req,res)=> todoController.getAllTodos(req,res));
 app.post('/add-todo',(req,res)=> todoController.addTodo(req,res));
 app.post('/edit-todo/:id',(req,res)=> todoController.editTodo(req,res));

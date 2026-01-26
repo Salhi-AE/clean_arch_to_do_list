@@ -10,8 +10,7 @@ class ToggleTodo {
       throw new Error("Todo not found");
     }
 
-    todo.completed = !todo.completed;
-    return  this.todoRepository.update(todo);
+    return  this.todoRepository.toggle(todo);
   }
 }
 export default ToggleTodo;
