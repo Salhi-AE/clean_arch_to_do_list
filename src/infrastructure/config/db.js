@@ -3,12 +3,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const connectDB = async () => {
-    const uri = process.env.MONGO_URI;
+    const uri = process.env.MONGODB_URI;
     
     if (!uri) {
-        console.error("❌ Error: MONGO_URI is not defined in .env file");
+        console.error("❌ Error: MONGODB_URI is not defined in .env file");
         process.exit(1);
-    }
+    }MONGODB_URI
 
     try {
         await mongoose.connect(uri);
