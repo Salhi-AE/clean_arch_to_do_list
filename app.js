@@ -7,6 +7,8 @@ dotenv.config();
 import authRoutes from "./src/core/interfaces/routes/authRoutes.js";
 import isAuth from "./src/core/interfaces/middlewares/authMiddlewars.js";
 import connectDB from "./src/infrastructure/config/db.js";
+connectDB();
+
 import TodoRepo from "./src/core/interfaces/repositories/TodoRepository.js";
 import UserRepository from "./src/core/interfaces/repositories/UserRepository.js";
 import AddTodo from "./src/core/usecases/AddTodo.js";
@@ -21,7 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.set("view engine", "ejs");
@@ -39,11 +41,10 @@ const useCases = {
 };
 
 const todoController = new TodoController(useCases, userRepo);
-connectDB();
 
 app.use(
   session({
-    secret: "my-super-secret-key", 
+    secret: process.env.SESSION_SECRET, 
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 24 * 60 * 60 * 1000 }, // يوم واحد
