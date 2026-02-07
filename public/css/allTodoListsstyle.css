@@ -1,145 +1,330 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-main: #2d3436;
+    --accent: #6c5ce7;
+    --danger: #ff7675;
+    --success: #00b894;
+}
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-main: #2d3436;
-            --accent: #6c5ce7;
-            --danger: #ff7675;
-            --success: #00b894;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
+body {
+    background: var(--primary-gradient);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
-        body {
-            background: var(--primary-gradient);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.app-container {
+    background: var(--glass-bg);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
 
-        .app-container {
-            background: var(--glass-bg);
-            width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-        }
+/* --- User Navigation / Bar --- */
+.user-nav {
 
-        header h1 {
-            font-weight: 600;
-            color: var(--text-main);
-            font-size: 2rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.259);
+    /* خلفية زجاجية خفيفة */
+    border-radius: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
 
-        .add-form {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        .add-form input {
-            flex: 1;
-            padding: 14px 20px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
 
-        .add-form input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
-        }
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
 
-        .add-form button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 0 25px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+.welcome-text {
+    font-size: 0.75rem;
+    color: #636e72;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-        .todo-list {
-            list-style: none;
-        }
+.user-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.2;
+}
 
-        .todo-list li {
-            background: white;
-            margin-bottom: 12px;
-            padding: 16px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            border: 1px solid #f1f1f1;
-        }
+/* حاوية في أسفل الـ app-container */
+.footer-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    /* دفع العنصر لليمين */
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    /* خط فاصل خفيف */
+}
 
-        .todo-list li.is-completed {
-            background: #f9f9f9;
-            opacity: 0.7;
-        }
+.logout-link-bottom {
+    color: #b82b00dd;
+    text-decoration: none;
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.977);
+    padding: 12px 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 40px 25px 25px 40px;
+    /* ... باقي التنسيقات أعلاه ... */
+}
 
-        .todo-list li.is-completed .text {
-            text-decoration: line-through;
-            color: #b2bec3;
-        }
+.logout-link-bottom:hover {
+    background: rgba(255, 118, 117, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 118, 117, 0.1);
+}
 
-        /* --- Integration of Bootstrap Icons Styles --- */
-        .bi {
-            font-size: 1.25rem;
-            transition: transform 0.2s ease;
-            display: inline-block;
-        }
+/* تعديل الـ Navigation القديم ليبقى فيه الاسم فقط */
+.user-nav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
 
-        .bi:hover {
-            transform: scale(1.2);
-        }
+/* --- Header & Form --- */
+header h1 {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
 
-        .text-success { color: var(--success) !important; }
-        .text-primary { color: var(--accent) !important; }
-        .text-danger  { color: var(--danger) !important; }
-        .text-secondary { color: #b2bec3 !important; }
+.add-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
 
-        .todo-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
+.add-form input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.3s ease;
+}
 
-        .todo-actions a, .btn-edit {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        /* --- End of Integration --- */
+.add-form input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 40px 0;
-            color: #636e72;
-        }
+.add-form button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
 
-        @media (max-width: 480px) {
-            .app-container { padding: 25px; }
-            .add-form { flex-direction: column; }
-        }
-    
+/* --- Todo List Items --- */
+.todo-list {
+    list-style: none;
+}
+
+.todo-list li {
+    background: white;
+    margin-bottom: 12px;
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid #f1f1f1;
+}
+
+.todo-list li.is-completed {
+    background: #f9f9f9;
+    opacity: 0.7;
+}
+
+.todo-list li.is-completed .text {
+    text-decoration: line-through;
+    color: #b2bec3;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.todo-actions a,
+.btn-edit {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* --- Icons Colors --- */
+.bi {
+    font-size: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+.bi:hover {
+    transform: scale(1.2);
+}
+
+.text-success {
+    color: var(--success) !important;
+}
+
+.text-primary {
+    color: var(--accent) !important;
+}
+
+.text-danger {
+    color: var(--danger) !important;
+}
+
+.text-secondary {
+    color: #b2bec3 !important;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: #636e72;
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        padding: 25px;
+    }
+
+    .add-form {
+        flex-direction: column;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    /* تأثير الضباب الاحترافي */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn-cancel,
+.btn-confirm {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-cancel {
+    background: #f1f2f6;
+    color: #57606f;
+}
+
+.btn-cancel:hover {
+    background: #dfe4ea;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.modal-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 15px 0 25px 0;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.modal-input:focus {
+    border-color: var(--accent);
+}

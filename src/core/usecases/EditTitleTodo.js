@@ -3,7 +3,11 @@ class EditTitleTodo {
     this.todoRepository = todoRepository;
   }
 
-  async execute(id, newTitle) {
+  async execute(userId,id, newTitle) {
+    if (!id) {
+      throw new Error("Todo ID is required");
+    }
+
     const editTitle = String(newTitle || "");
     if (!newTitle || editTitle.trim() === "") {
         throw new Error("Title cannot be empty");

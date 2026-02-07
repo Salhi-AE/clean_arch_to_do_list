@@ -2,8 +2,8 @@ class DeleteAllTodos {
   constructor(todoRepository) {
     this.todoRepository = todoRepository;
   }
-  async execute() {
-    const allTodos = await this.todoRepository.deleteCompleted();
+  async execute(userId) {
+    const allTodos = await this.todoRepository.deleteCompleted(userId);
     return allTodos;
   }
 }

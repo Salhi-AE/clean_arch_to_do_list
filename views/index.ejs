@@ -1,47 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> Task Manager</title>
+    <title>Task Manager</title>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <link rel="stylesheet" href="../css/allTodoListsstyle.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style></style>
   </head>
 
   <body>
-    
     <div class="app-container">
+      <nav class="user-nav">
+        <% if (user) { %>
+        <nav class="user-nav">
+          <div class="user-profile">
+            <img
+              src="https://ui-avatars.com/api/?name=<%= user.name || user.username %>&background=6c5ce7&color=fff"
+              alt="Avatar"
+              class="user-avatar"
+            />
+
+            <div class="user-info">
+              <span class="welcome-text">Account,</span>
+              <h3 class="user-name"><%= user.name || user.username %></h3>
+            </div>
+          </div>
+
+          <div class="footer-actions">
+            <a
+              href="/logout"
+              class="logout-link-bottom"
+              onclick="
+                openConfirmModal(
+                  '/logout',
+                  'Are you sure you want to logout?',
+                  'logout',
+                );
+                return false;
+              "
+            >
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </div>
+        </nav>
+        <% } else { %>
+        <div class="auth-links">
+          <a href="/login">Login</a>
+          <a href="/register" class="register-btn">Sign Up</a>
+        </div>
+        <% } %>
+      </nav>
+
       <header>
         <h1>My Daily Tasks</h1>
       </header>
 
+      <% if (user) { %>
       <form action="/add-todo" method="POST" class="add-form">
         <input
           type="text"
           name="title"
           placeholder="Add a new masterpiece..."
+          maxlength="100"
           required
         />
         <button type="submit">Add</button>
       </form>
+      <% } else { %>
+      <p
+        style="
+          text-align: center;
+          color: #636e72;
+          margin-bottom: 25px;
+          font-size: 0.9rem;
+        "
+      >
+        Please
+        <a href="/login" style="color: var(--accent); font-weight: 600"
+          >login</a
+        >
+        to manage your tasks.
+      </p>
+      <% } %>
 
       <ul class="todo-list">
-        <% todos.forEach(todo => { %>
+        <% todos.forEach(todo => { %> <% if (todo.id) { %>
         <li class="<%= todo.completed ? 'is-completed' : '' %>">
           <div class="todo-content">
             <span class="text"><%= todo.title %></span>
           </div>
 
           <div class="todo-actions">
-            <a
-              href="/toggle-todo/<%= todo.id %>"
-              title="Toggle Status"
-              class="status-icon"
-            >
+            <a href="/toggle-todo/<%= todo.id %>" title="Toggle Status">
               <% if (todo.completed) { %>
               <i class="bi bi-arrow-counterclockwise text-secondary"></i>
               <% } else { %>
@@ -50,51 +110,160 @@
             </a>
 
             <button
-              onclick="editTodo('<%= todo.id %>', '<%= todo.title %>')"
+              onclick="openEditModal('<%= todo.id %>', '<%= todo.title %>')"
               class="btn-edit"
               title="Edit"
             >
-              <i class="bi bi-pencil-square text-primary"></i>
+              <i
+                class="bi bi-pencil text-accent"
+                style="color: rgb(63, 72, 249)"
+              ></i>
             </button>
 
             <a
               href="/delete-todo/<%= todo.id %>"
-              class="btn-delete"
+              class="action-btn"
               title="Delete"
-              onclick="return confirm('Are you sure?');"
+              onclick="
+                openConfirmModal(
+                  '/delete-todo/<%= todo.id %>',
+                  'Are you sure you want to delete this task?',
+                  'danger',
+                );
+                return false;
+              "
             >
               <i class="bi bi-trash3 text-danger"></i>
             </a>
           </div>
         </li>
-        <% }) %>
+        <% } %> <% }) %>
       </ul>
 
-      <% if (todos.length === 0) { %>
+      <% if (todos.length === 0 && user) { %>
       <div class="empty-state">
         <p>Your list is clear. Time to chill! ☕</p>
       </div>
       <% } %>
     </div>
 
+    <div id="customConfirmModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-icon" id="modalIcon">
+          <i class="bi bi-exclamation-circle text-danger"></i>
+        </div>
+        <h2 id="modalTitle">Confirm Action</h2>
+        <p id="modalMessage">Are you sure you want to proceed?</p>
+        <div class="modal-actions">
+          <button onclick="closeConfirmModal()" class="btn-cancel">
+            Cancel
+          </button>
+          <a id="modalConfirmBtn" href="#" class="btn-confirm">Confirm</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="editTodoModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-icon" style="color: var(--accent)">
+          <i
+            class="bi bi-pencil text-accent"
+            style="color: rgb(63, 72, 249); font-size: 30px"
+          ></i>
+        </div>
+        <h2>Edit Task</h2>
+        <p>Update the title of your task below:</p>
+
+        <form id="editTodoForm" method="POST" action="">
+          <input
+            type="text"
+            id="editTodoInput"
+            name="title"
+            class="modal-input"
+            required
+          />
+          <div class="modal-actions">
+            <button type="button" onclick="closeEditModal()" class="btn-cancel">
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn-confirm"
+              style="background-color: var(--accent)"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script>
-      function editTodo(id, oldTitle) {
-        const newTitle = prompt("Update your task:", oldTitle);
-        if (newTitle && newTitle.trim() !== "" && newTitle !== oldTitle) {
-          const form = document.createElement("form");
-          form.method = "POST";
-          form.action = `/edit-todo/${id}`;
+      function openEditModal(id, currentTitle) {
+        const modal = document.getElementById("editTodoModal");
+        const form = document.getElementById("editTodoForm");
+        const input = document.getElementById("editTodoInput");
 
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = "title";
-          input.value = newTitle;
+        form.action = `/edit-todo/${id}`;
 
-          form.appendChild(input);
-          document.body.appendChild(form);
-          form.submit();
-        }
+        input.value = currentTitle;
+
+        modal.classList.add("active");
+
+        setTimeout(() => input.focus(), 100);
       }
+
+      function closeEditModal() {
+        document.getElementById("editTodoModal").classList.remove("active");
+      }
+      function openConfirmModal(url, message, type = "danger") {
+        const modal = document.getElementById("customConfirmModal");
+        const confirmBtn = document.getElementById("modalConfirmBtn");
+        const msgElement = document.getElementById("modalMessage");
+        const iconElement = document.getElementById("modalIcon");
+
+        confirmBtn.href = url;
+        msgElement.innerText = message;
+
+        let iconHTML = "";
+        let color = "";
+
+        switch (type) {
+          case "danger":            
+           iconHTML =
+              '<i class="bi bi-trash3-fill" style="font-size: 40px;"></i>';
+            color = "var(--danger)";
+            break;
+          case "logout":   
+            iconHTML =
+              '<i class="bi bi-box-arrow-right" style="font-size: 40px;"></i>';
+            color = "var(--danger)";
+            break;
+          
+          default:
+            iconHTML =
+              '<i class="bi bi-info-circle-fill" style="font-size: 40px;"></i>';
+            color = "var(--accent)";
+            break;
+        }
+
+        iconElement.innerHTML = iconHTML;
+        iconElement.style.color = color;
+        confirmBtn.style.backgroundColor = color;
+
+        modal.classList.add("active");
+      }
+
+      function closeConfirmModal() {
+        document
+          .getElementById("customConfirmModal")
+          .classList.remove("active");
+      }
+
+      window.onclick = function (event) {
+        const modal = document.getElementById("customConfirmModal");
+        if (event.target == modal) closeConfirmModal();
+      };
     </script>
   </body>
 </html>

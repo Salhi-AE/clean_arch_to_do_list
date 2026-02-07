@@ -4,13 +4,13 @@ class AddTodo {
   constructor(todoRepository) {
     this.todoRepository = todoRepository;
   }
-  async execute(title) {
+  async execute(userId, title) {
     const titleStr = String(title || "")
     if (!title || titleStr.trim() === "") {
       throw new Error("title is required");
     }
 
-    const newTodo = new Todo(null, titleStr.trim(), false);
+    const newTodo = new Todo({ id: null, title: titleStr.trim(), completed: false, userId });
     return await this.todoRepository.add(newTodo);
   }
 }

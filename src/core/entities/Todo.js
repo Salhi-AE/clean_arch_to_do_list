@@ -1,8 +1,9 @@
 class Todo {
-    constructor(id,title,completed = false) {
-       this.id =id;
-       this.title= title;
-       this.completed = completed;
-    } 
+  constructor({ id, title, completed = false, userId }) {
+    this.id = id;
+    this.title = title;
+    this.completed = completed;
+    this.userId = userId;
+  }
 }
 export default Todo;

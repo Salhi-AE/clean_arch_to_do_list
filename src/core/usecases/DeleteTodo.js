@@ -3,7 +3,12 @@ class DeleteTodo {
     this.todoRepository = todoRepository;
   }
 
-  async execute(id) {
+  async execute(userId, id) {
+    if (!id) {
+      
+    
+      throw new Error("Todo ID is required");
+    }
     return this.todoRepository.delete(id);
   }
 }
